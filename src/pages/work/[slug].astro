@@ -1,0 +1,39 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const studies = await getCollection('work');
+  return studies.map((study) => ({ params: { slug: study.id }, props: { study } }));
+}
+
+const { study } = Astro.props;
+const { Content } = await render(study);
+
+const all = (await getCollection('work', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.order - b.data.order);
+const idx = all.findIndex((s) => s.id === study.id);
+const next = all[(idx + 1) % all.length];
+---
+<Base title={`${study.data.title} — Paul Hendrie`} description={study.data.strapline}>
+  <article>
+    <header class="prose">
+      <p class="kicker">{study.data.context}</p>
+      <h1 class="settle">{study.data.title}</h1>
+      <p class="strapline">{study.data.strapline}</p>
+    </header>
+    <div class="prose study-body">
+      <Content />
+    </div>
+    <nav class="next prose">
+      <p class="kicker">Next</p>
+      <p><a href={`/work/${next.id}/`}>{next.data.title}</a> — {next.data.strapline.toLowerCase()}</p>
+    </nav>
+  </article>
+
+  <style>
+    .strapline { color: var(--ink-soft); font-size: 1.1rem; margin-top: -0.6rem; }
+    .study-body :global(h2) { font-size: 1.25rem; }
+    .next { border-top: 1px solid var(--hairline); margin-top: 4rem; padding-top: 1.5rem; }
+  </style>
+</Base>

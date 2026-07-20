@@ -1,0 +1,167 @@
+---
+import Base from '../layouts/Base.astro';
+import Note from '../components/Note.astro';
+import Scaffold from '../components/Scaffold.astro';
+
+// Three authentic-style draft→revision pairs. The visitor taps the part of
+// the revision where the interesting change happened. Each explanation
+// names the move — that naming is the pedagogy.
+const items = [
+  {
+    move: 'Hedging',
+    draft: 'Social media use causes anxiety in teenagers.',
+    segments: [
+      { text: 'Social media use' },
+      { text: 'may contribute to', hit: true },
+      { text: 'anxiety in' },
+      { text: 'some', hit: true },
+      { text: 'adolescents.' },
+    ],
+    explain:
+      'The revision hedges. “Causes” claims certainty the evidence rarely supports; “may contribute to” and “some” shrink the claim to what can be defended. Academic writers are not being timid here — they are being precise about how much they know.',
+    miss: 'That part barely changed. Look for where the claim got more careful.',
+  },
+  {
+    move: 'Nominalisation',
+    draft: 'Because the government decided to raise interest rates, house prices fell quickly.',
+    segments: [
+      { text: 'The government’s decision', hit: true },
+      { text: 'to raise interest rates led to' },
+      { text: 'a rapid fall', hit: true },
+      { text: 'in house prices.' },
+    ],
+    explain:
+      'Actions became things: “decided” → “decision”, “fell quickly” → “a rapid fall”. Nominalisation lets one sentence carry what took a whole clause before — it is how academic prose gets dense, for better and sometimes worse.',
+    miss: 'Not quite — find where a verb turned into a noun.',
+  },
+  {
+    move: 'Stance',
+    draft: 'This proves that the vaccine is effective.',
+    segments: [
+      { text: 'These findings' },
+      { text: 'suggest', hit: true },
+      { text: 'that the vaccine is effective' },
+      { text: '(Chen et al., 2024).', hit: true },
+    ],
+    explain:
+      '“Proves” became “suggest”, and a citation arrived. The writer has stopped speaking for the universe and started reporting a relationship between specific evidence and a claim — which is what an academic voice is.',
+    miss: 'Look at how sure the writer sounds, and on whose authority.',
+  },
+];
+---
+<Base title="Notice — Paul Hendrie" description="In-sessional EAP in one minute: spot what changed between draft and revision.">
+  <div class="prose">
+    <p class="kicker">Notice</p>
+    <h1 class="settle">Spot the move</h1>
+    <p>Below are three sentences, each shown as a first draft and as the
+    revision an academic writer actually submitted. In each revision,
+    <strong>tap the part where the interesting change happened</strong>.</p>
+
+    <Scaffold>
+      Hint for the first one: read both versions aloud. The change you can
+      <em>hear</em> — the one that changes how sure the writer sounds — is
+      the one to tap.
+    </Scaffold>
+
+    <ol class="activity">
+      {items.map((item, i) => (
+        <li class="item" data-item={i}>
+          <p class="draft"><span class="label">Draft</span> {item.draft}</p>
+          <p class="revision">
+            <span class="label">Revision</span>
+            {item.segments.map((seg) => (
+              <button type="button" class="seg" data-hit={seg.hit ? 'true' : 'false'}>{seg.text}</button>
+            ))}
+          </p>
+          <p class="feedback note" data-explain={item.explain} data-miss={item.miss} data-move={item.move} aria-live="polite"></p>
+        </li>
+      ))}
+    </ol>
+
+    <div class="finale" hidden>
+      <hr />
+      <p>That's in-sessional EAP in one minute: authentic text, a reason to
+      look closely, and a name for what you saw. You just did the noticing
+      yourself — nobody told you the rule first, and that order matters.</p>
+      <p>Designing that experience at course scale — with AI in the loop
+      generating the texts, and the pedagogy deciding everything else — is
+      <a href="/work/">what I do</a>.</p>
+    </div>
+
+    <Note>
+      No score, no streak, no confetti. You noticed three things; that was
+      the whole design. If you want the theory, the moves are hedging,
+      nominalisation and stance — load-bearing walls of academic style.
+    </Note>
+  </div>
+
+  <style>
+    .activity { list-style: none; margin: 2.5rem 0 0; padding: 0; }
+    .item { border-top: 1px solid var(--hairline); padding: 1.6rem 0 0.6rem; }
+    .label {
+      font-family: var(--font-sans);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      display: inline-block;
+      width: 4.6rem;
+    }
+    .draft { color: var(--ink-soft); }
+    .revision { display: flex; flex-wrap: wrap; gap: 0.3rem 0.35rem; align-items: baseline; }
+    .seg {
+      font: inherit;
+      color: inherit;
+      background: none;
+      border: none;
+      padding: 0 0.1em;
+      margin: 0;
+      cursor: pointer;
+      border-radius: 0.15em;
+      border-bottom: 1px dashed var(--hairline);
+    }
+    .seg:hover, .seg:focus-visible { background: var(--support); }
+    .seg:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
+    .item.solved .seg { cursor: default; border-bottom-color: transparent; }
+    .item.solved .seg[data-hit='true'] {
+      background: linear-gradient(100deg, transparent 1%, var(--marker) 5%, var(--marker) 95%, transparent 99%);
+    }
+    .feedback { min-height: 1.2rem; }
+    .feedback:empty { display: none; }
+    @media (min-width: 68rem) {
+      /* feedback behaves like a margin note, arriving beside its sentence */
+      .feedback { margin-top: -3rem; }
+    }
+    /* :global — this span is injected by the script, so scoped styles miss it */
+    .feedback :global(.move-name) { font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.68rem; display: block; margin-bottom: 0.2rem; }
+    .finale p { max-width: var(--measure); }
+  </style>
+
+  <script>
+    const items = document.querySelectorAll('.item');
+    const finale = document.querySelector('.finale');
+    let solved = 0;
+
+    items.forEach((item) => {
+      const feedback = item.querySelector('.feedback');
+      item.querySelectorAll('.seg').forEach((seg) => {
+        seg.addEventListener('click', () => {
+          if (item.classList.contains('solved')) return;
+          if (seg.dataset.hit === 'true') {
+            item.classList.add('solved');
+            feedback.innerHTML =
+              `<span class="move-name">The move: ${feedback.dataset.move}</span>` +
+              feedback.dataset.explain;
+            if (++solved === items.length && finale) {
+              finale.hidden = false;
+              finale.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+          } else {
+            feedback.textContent = feedback.dataset.miss;
+          }
+        });
+      });
+    });
+  </script>
+</Base>

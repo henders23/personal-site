@@ -1,0 +1,75 @@
+---
+import Base from '../../layouts/Base.astro';
+import Note from '../../components/Note.astro';
+import { getCollection } from 'astro:content';
+
+const studies = (await getCollection('work', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="Work — Paul Hendrie">
+  <div class="prose">
+    <p class="kicker">Work</p>
+    <h1 class="settle">Five things I designed</h1>
+    <p>Each is written up the way I'd write a learning design document:
+    context, the problem stated precisely, the decisions and their
+    reasons, where AI fit, and — in every case — what I'd change.</p>
+
+    <Note>
+      The "what I'd change" section is mandatory. A portfolio where nothing
+      went sideways is a portfolio that's editing the evidence.
+    </Note>
+
+    <ol class="studies" data-reveal-group>
+      {studies.map((study) => (
+        <li class="reveal">
+          <a href={`/work/${study.id}/`}>
+            <h2>{study.data.title}</h2>
+            <p class="strapline">{study.data.strapline}</p>
+            <p class="context">{study.data.context}</p>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </div>
+
+  <style>
+    .studies {
+      list-style: none;
+      margin: 3rem 0 0;
+      padding: 0;
+      counter-reset: study;
+    }
+    .studies li {
+      counter-increment: study;
+      border-top: 1px solid var(--hairline);
+    }
+    .studies a {
+      display: grid;
+      grid-template-columns: 2.5rem 1fr;
+      grid-template-areas: 'n title' 'n strap' 'n ctx';
+      background: none;
+      padding: 1.4rem 0.6rem;
+      margin: 0 -0.6rem;
+      border-radius: 0.4rem;
+      transition: background-color 0.3s ease;
+    }
+    .studies a:hover { background-color: color-mix(in srgb, var(--support) 55%, transparent); }
+    .studies a::before {
+      content: counter(study, decimal-leading-zero);
+      grid-area: n;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      color: var(--ink-soft);
+      padding-top: 0.35rem;
+    }
+    .studies h2 { grid-area: title; margin: 0; font-size: 1.2rem; }
+    .strapline { grid-area: strap; margin: 0.25rem 0 0; color: var(--ink-soft); }
+    .context {
+      grid-area: ctx;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      color: var(--ink-soft);
+      margin: 0.5rem 0 0;
+    }
+  </style>
+</Base>

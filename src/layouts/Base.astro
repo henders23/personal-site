@@ -1,0 +1,107 @@
+---
+import '@fontsource-variable/literata';
+import '@fontsource-variable/literata/wght-italic.css';
+import '@fontsource-variable/public-sans';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Paul Hendrie — learning designer. EAP, in-sessional academic English, and AI-designed learning experiences.' } = Astro.props;
+const nav = [
+  { href: '/work/', label: 'Work' },
+  { href: '/approach/', label: 'Approach' },
+  { href: '/notice/', label: 'Notice' },
+  { href: '/about/', label: 'About' },
+];
+const path = Astro.url.pathname;
+---
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline>document.documentElement.classList.remove('no-js');</script>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="page">
+        <a href="/" class="wordmark" aria-label="Paul Hendrie — home">Paul Hendrie</a>
+        <ul>
+          {nav.map((item) => (
+            <li>
+              <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </header>
+
+    <main class="page">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="page">
+        <p>
+          <a href="mailto:paulhendrie@gmail.com">paulhendrie@gmail.com</a>
+          &nbsp;·&nbsp; <a href="https://github.com/henders23">GitHub</a>
+        </p>
+        <p class="colophon">
+          Set in Literata. Built with Astro &amp; GSAP, light mode first, no particles were harmed.
+          The margin notes are the pedagogy of <em>noticing</em> — glad you did.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      import '../scripts/motion.js';
+    </script>
+
+    <style>
+      .site-header nav {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+        padding-top: 1.6rem;
+        padding-bottom: 3.5rem;
+      }
+      .wordmark {
+        font-variation-settings: 'opsz' 30;
+        font-weight: 520;
+        background: none;
+      }
+      .site-header ul {
+        display: flex;
+        gap: 1.4rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        font-family: var(--font-sans);
+        font-size: 0.85rem;
+      }
+      .site-header ul a { background: none; }
+      .site-header ul a:hover,
+      .site-header ul a[aria-current='page'] {
+        background-image: linear-gradient(transparent 62%, var(--marker) 62%, var(--marker) 94%, transparent 94%);
+        background-size: 100% 100%;
+        background-position: left;
+      }
+      .site-footer {
+        border-top: 1px solid var(--hairline);
+        padding: 2rem 0 3rem;
+        font-family: var(--font-sans);
+        font-size: 0.82rem;
+        color: var(--ink-soft);
+      }
+      .site-footer .page { padding-bottom: 0; }
+      .colophon { max-width: 48ch; }
+    </style>
+  </body>
+</html>
