@@ -1,5 +1,16 @@
 # Site plan — Paul Hendrie, learning designer
 
+> **Revision 2 (shipped).** After seeing v1, Paul redirected the visual
+> design: the site is now **dark mode with a Tron: Legacy (2010) aesthetic**
+> — deep blue-black ground, cyan circuit light, orange as the human accent,
+> Orbitron + Titillium type, neon ignition, a perspective grid floor, and a
+> console-boot hero. The structural ideas below survive (manuscript margin →
+> HUD annotations, fading scaffolds → derezzing briefing panels, the Notice
+> activity, case studies as learning-design documents). Case studies are now:
+> **The EAP Gallery (Anamnesis), EAPedia, Wavelength, and the AI Artefacts
+> collection** (Padlet). §§2–3 below describe v1's paper aesthetic and are
+> kept for the record only.
+
 A working plan for an animated personal site showcasing expertise in learning
 design, English for Academic Purposes (in-sessional EAP), and — primarily —
 the use of AI to design learning experiences.

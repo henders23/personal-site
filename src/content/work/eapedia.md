@@ -1,60 +1,77 @@
 ---
 title: EAPedia
-strapline: A course you can look things up in
-order: 5
-context: EAP course · in development
+strapline: An academic writing course, 217 lessons deep, organised the way students actually search
+order: 2
+context: React SPA · 8 genre modules · 29 language workshops
 ---
 
 ## Context
 
-Reference works and courses fail students in opposite ways. A reference is
-there when you need it but teaches nothing by itself; a course teaches, but
-on its own schedule — week four's content is no use in week two's crisis.
-EAPedia is an experiment in collapsing the distinction: an EAP course built
-to be *looked things up in*, where every entry is simultaneously an answer
-and a lesson.
+Students arrive at academic writing through problems, not syllabi. *My
+supervisor says my literature review is too descriptive* is the real
+query; "criticality, week 7" is where the answer was filed. EAPedia is a
+full EAP course built to be entered from the problem end: an
+encyclopedia's addressability with a course's teaching.
 
-<aside class="note">Paul: this one is yours to describe — a paragraph on
-what EAPedia actually contains and who it's for, and I'll redraft the rest
-of the page around it.</aside>
+<aside class="note">Current scale: 217 lesson files across eight genre
+modules — literature review, academic essay, reflective writing, case
+study, research article, thesis introduction, thesis discussion, thesis
+chapters — plus twenty-nine language workshops, from hedging and
+metadiscourse to reporting verbs and reader engagement.</aside>
 
 ## The problem, precisely
 
-Students arrive at EAP content through problems, not syllabi: *my
-supervisor said my writing is too informal* is the search query; "register
-and stance, week 7" is where the answer was filed. The design problem is
-architectural — organising EAP knowledge so the path in can be a problem
-and the path out is understanding, not just a fix.
+Genre and language cut across each other: a student writing a case study
+needs hedging *now*, but hedging isn't a case-study topic — it's a
+language feature that surfaces in every genre. Most courses pick one
+axis and lose the other. EAPedia's architecture is the answer to exactly
+this: genre modules down one axis, language workshops down the other,
+and every lesson cross-linked so either entry point reaches the same
+teaching.
 
 ## Design decisions
 
-**Entries answer, then teach.** Each entry leads with the usable answer
-(here is the move, here is an example) and opens downward into the why —
-the genre logic, the discipline variation, the linked concepts. Students in
-a hurry get the fix; students with ten minutes get the lesson; the entry is
-honest that the second student is who it's really for.
+**Two shells, one deliberate contrast.** Navigation lives in a dark
+shell; lessons open as paper — near-white, ink text, book typography.
+The switch is a designed signal: browsing is exploration, but a lesson
+is *reading*, and reading gets reading conditions. (The site you're on
+inverted the same trick.)
 
-**Cross-references are the syllabus.** Like the Learning Gallery, the
-structure carries the pedagogy: what links to what teaches how academic
-English hangs together, and a student following their own trail of links is
-doing self-directed EAP without being told that's what it is.
+**Genres are doors, language is plumbing.** Eight genre modules mirror
+the assignments students are actually set. Under them, the language
+workshops carry the transferable load — stance calibration, source
+integration, given-new structure, passive voice, critical AI writing.
+A lesson on hedging in the literature review knows it's both.
+
+<aside class="note">There's even a content-integrity script in the
+build: every lesson referenced by a door must resolve, no orphan
+lessons, no dead cross-links. Course coherence, enforced by CI.</aside>
+
+**Each lesson is its own payload.** Technically, every lesson is a
+separately loaded chunk — open one lesson, fetch one lesson. That's a
+performance decision that doubles as a pedagogic one: the course never
+downloads its own syllabus onto a student who came with a single
+question.
 
 ## Where AI fit
 
-AI drafts at encyclopedia scale — the coverage a solo author can't reach —
-while the entry template, the answer-then-teach stance, and the editorial
-pass on every published entry stay human. It also powers the search: a
-student's messy, real question ("why does this sound rude?") needs to land
-on *hedging and stance*, and semantic matching is what makes
-problem-shaped entry points possible.
+Nobody writes 217 coherent lessons alone. AI drafted at course scale
+inside a strict lesson schema — task types, staging, cross-link
+structure — while the genre analysis, the sequencing, and an editorial
+pass on every lesson stayed human. The schema is the pedagogy: the model
+filled a form I designed, and lessons that didn't survive editing were
+rewritten or cut.
 
 ## What happened
 
-<aside class="note">Paul: status and evidence here when ready.</aside>
-
-EAPedia is in development.
+All eight genre modules are fully populated and the course is deployed
+and in use. The cross-link architecture is doing what it was designed
+for: the language workshops are the most-entered pages — students really
+do arrive problem-first.
 
 ## What I'd change
 
-Ask me when it ships — this page will get the same "what I'd change"
-honesty as the others once there's something to be honest about.
+The course still assumes a student who reads. The next layer is
+diagnostic: paste your paragraph, and EAPedia routes you to the three
+lessons your draft is asking for — the encyclopedia learning to read its
+reader.

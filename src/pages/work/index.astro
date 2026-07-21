@@ -9,7 +9,7 @@ const studies = (await getCollection('work', ({ data }) => !data.draft))
 <Base title="Work — Paul Hendrie">
   <div class="prose">
     <p class="kicker">Work</p>
-    <h1 class="settle">Five things I designed</h1>
+    <h1 class="ignite">Four programs</h1>
     <p>Each is written up the way I'd write a learning design document:
     context, the problem stated precisely, the decisions and their
     reasons, where AI fit, and — in every case — what I'd change.</p>
@@ -22,7 +22,7 @@ const studies = (await getCollection('work', ({ data }) => !data.draft))
     <ol class="studies" data-reveal-group>
       {studies.map((study) => (
         <li class="reveal">
-          <a href={`/work/${study.id}/`}>
+          <a href={`/work/${study.id}/`} class="hud-panel">
             <h2>{study.data.title}</h2>
             <p class="strapline">{study.data.strapline}</p>
             <p class="context">{study.data.context}</p>
@@ -38,38 +38,43 @@ const studies = (await getCollection('work', ({ data }) => !data.draft))
       margin: 3rem 0 0;
       padding: 0;
       counter-reset: study;
+      display: grid;
+      gap: 1.2rem;
     }
-    .studies li {
-      counter-increment: study;
-      border-top: 1px solid var(--hairline);
-    }
+    .studies li { counter-increment: study; }
     .studies a {
       display: grid;
-      grid-template-columns: 2.5rem 1fr;
+      grid-template-columns: 3rem 1fr;
       grid-template-areas: 'n title' 'n strap' 'n ctx';
-      background: none;
-      padding: 1.4rem 0.6rem;
-      margin: 0 -0.6rem;
-      border-radius: 0.4rem;
-      transition: background-color 0.3s ease;
+      padding: 1.2rem 1.3rem;
+      color: var(--text);
     }
-    .studies a:hover { background-color: color-mix(in srgb, var(--support) 55%, transparent); }
     .studies a::before {
       content: counter(study, decimal-leading-zero);
       grid-area: n;
-      font-family: var(--font-sans);
-      font-size: 0.75rem;
-      color: var(--ink-soft);
-      padding-top: 0.35rem;
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      color: var(--orange);
+      text-shadow: 0 0 12px var(--orange-glow);
+      padding-top: 0.4rem;
     }
-    .studies h2 { grid-area: title; margin: 0; font-size: 1.2rem; }
-    .strapline { grid-area: strap; margin: 0.25rem 0 0; color: var(--ink-soft); }
+    .studies h2 {
+      grid-area: title;
+      margin: 0;
+      font-size: 0.95rem;
+      letter-spacing: 0.12em;
+      color: var(--cyan);
+    }
+    .studies a:hover h2 { text-shadow: 0 0 12px var(--cyan-glow); }
+    .strapline { grid-area: strap; margin: 0.3rem 0 0; color: var(--text); }
     .context {
       grid-area: ctx;
-      font-family: var(--font-sans);
-      font-size: 0.75rem;
-      color: var(--ink-soft);
-      margin: 0.5rem 0 0;
+      font-family: var(--font-display);
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin: 0.6rem 0 0;
     }
   </style>
 </Base>

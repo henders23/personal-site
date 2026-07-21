@@ -52,7 +52,7 @@ const items = [
 <Base title="Notice — Paul Hendrie" description="In-sessional EAP in one minute: spot what changed between draft and revision.">
   <div class="prose">
     <p class="kicker">Notice</p>
-    <h1 class="settle">Spot the move</h1>
+    <h1 class="ignite">Spot the move</h1>
     <p>Below are three sentences, each shown as a first draft and as the
     revision an academic writer actually submitted. In each revision,
     <strong>tap the part where the interesting change happened</strong>.</p>
@@ -97,35 +97,38 @@ const items = [
 
   <style>
     .activity { list-style: none; margin: 2.5rem 0 0; padding: 0; }
-    .item { border-top: 1px solid var(--hairline); padding: 1.6rem 0 0.6rem; }
+    .item { border-top: 1px solid var(--panel-edge); padding: 1.6rem 0 0.6rem; }
     .label {
-      font-family: var(--font-sans);
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
+      font-family: var(--font-display);
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--ink-soft);
+      color: var(--orange);
       display: inline-block;
-      width: 4.6rem;
+      width: 5rem;
     }
-    .draft { color: var(--ink-soft); }
+    .draft { color: var(--dim); }
     .revision { display: flex; flex-wrap: wrap; gap: 0.3rem 0.35rem; align-items: baseline; }
     .seg {
       font: inherit;
-      color: inherit;
+      color: var(--text);
       background: none;
       border: none;
       padding: 0 0.1em;
       margin: 0;
       cursor: pointer;
-      border-radius: 0.15em;
-      border-bottom: 1px dashed var(--hairline);
+      border-radius: 2px;
+      border-bottom: 1px dashed var(--panel-edge);
+      transition: color 0.2s ease, text-shadow 0.2s ease;
     }
-    .seg:hover, .seg:focus-visible { background: var(--support); }
-    .seg:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
+    .seg:hover, .seg:focus-visible { color: var(--cyan-core); border-bottom-color: var(--cyan); }
+    .seg:focus-visible { outline: 1px solid var(--cyan); outline-offset: 2px; }
     .item.solved .seg { cursor: default; border-bottom-color: transparent; }
     .item.solved .seg[data-hit='true'] {
-      background: linear-gradient(100deg, transparent 1%, var(--marker) 5%, var(--marker) 95%, transparent 99%);
+      color: var(--cyan-core);
+      text-shadow: 0 0 12px var(--cyan-glow);
+      border-bottom: 1px solid var(--cyan);
     }
     .feedback { min-height: 1.2rem; }
     .feedback:empty { display: none; }
@@ -134,7 +137,17 @@ const items = [
       .feedback { margin-top: -3rem; }
     }
     /* :global — this span is injected by the script, so scoped styles miss it */
-    .feedback :global(.move-name) { font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.68rem; display: block; margin-bottom: 0.2rem; }
+    .feedback :global(.move-name) {
+      font-family: var(--font-display);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.6rem;
+      display: block;
+      margin-bottom: 0.2rem;
+      color: var(--orange);
+      text-shadow: 0 0 10px var(--orange-glow);
+    }
     .finale p { max-width: var(--measure); }
   </style>
 

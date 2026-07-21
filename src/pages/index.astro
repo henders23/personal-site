@@ -1,225 +1,199 @@
 ---
 import Base from '../layouts/Base.astro';
 import Note from '../components/Note.astro';
-
-// The hero redrafts itself: draft trope-language is struck through by hand
-// and replaced. Each pass is real markup (<del>/<ins>), so with JS off or
-// reduced motion the visitor sees an honest marked-up draft instead.
-const passes = [
-  {
-    keep: 'I ',
-    del: 'am passionate about leveraging innovative AI-driven solutions to facilitate transformative learning outcomes.',
-    ins: 'design learning experiences. Lately, with AI.',
-  },
-  {
-    keep: 'I ',
-    del: 'deliver comprehensive English language support services to diverse student cohorts across the institution.',
-    ins: 'teach academic English inside the disciplines, where students actually need it.',
-  },
-  {
-    keep: 'I ',
-    del: 'harness the power of cutting-edge generative AI to revolutionise pedagogy.',
-    ins: 'use AI carefully, and keep what works.',
-  },
-];
 ---
 <Base title="Paul Hendrie — learning designer">
-  <h1 class="sr-only">Paul Hendrie — I design learning experiences. Lately, with AI.</h1>
-
   <section class="hero">
-    <p class="kicker">Learning design · English for Academic Purposes · AI</p>
-    <div class="redraft" aria-hidden="true">
-      {passes.map((pass, i) => (
-        <p class="pass" data-pass={i}>
-          <span class="keep">{pass.keep}</span><del>{pass.del}</del>
-          <ins>{pass.ins}</ins>
-        </p>
-      ))}
+    <p class="console" aria-hidden="true" data-lines={JSON.stringify([
+      '> identity: paul hendrie',
+      '> function: designing learning experiences. lately, with ai.',
+    ])}>
+      <span class="console-text">&gt; identity: paul hendrie<br />&gt; function: designing learning experiences. lately, with ai.</span><span class="cursor"></span>
+    </p>
+
+    <h1 class="name">Paul<br />Hendrie</h1>
+    <p class="role">Learning design &nbsp;·&nbsp; English for Academic Purposes &nbsp;·&nbsp; AI</p>
+
+    <div class="gridfloor" aria-hidden="true">
+      <div class="plane"></div>
+      <div class="horizon"></div>
     </div>
   </section>
 
   <section class="doors" data-reveal-group>
-    <a class="door reveal" href="/work/">
-      <h2 class="settle">Work</h2>
-      <p>Five things I designed and what designing them taught me — a walkable
-      museum of learning theory, courses on AI for higher education, and an
-      EAP coach that lives in a student's pocket.</p>
+    <a class="door hud-panel reveal" href="/work/">
+      <h2>Work</h2>
+      <p>Four programs I designed and what building them taught me — a memory
+      palace for EAP practitioners, a 217-lesson academic writing course, and
+      a constellation of learning theory.</p>
     </a>
-    <a class="door reveal" href="/approach/">
-      <h2 class="settle">Approach</h2>
-      <p>How I think about scaffolding, noticing, and what AI is actually
-      for in learning design. The margin argues with the text.</p>
+    <a class="door hud-panel reveal" href="/approach/">
+      <h2>Approach</h2>
+      <p>How I think about scaffolding, noticing, and what AI is actually for
+      in learning design. The margin argues with the text.</p>
     </a>
-    <a class="door reveal" href="/notice/">
-      <h2 class="settle">Notice</h2>
+    <a class="door hud-panel reveal" href="/notice/">
+      <h2>Notice</h2>
       <p>In-sessional EAP in one minute. Three sentences changed between
       draft and revision — can you spot the moves?</p>
     </a>
   </section>
 
-  <Note>
-    If you're wondering why this site keeps writing notes to you in the
-    margin: annotation is how academic readers think, and how EAP tutors
-    teach. It seemed only right.
-  </Note>
+  <div class="prose">
+    <Note>
+      If you're wondering why this site keeps writing annotations to you in
+      the margin: annotation is how academic readers think, and how EAP
+      tutors teach. Even on the Grid.
+    </Note>
 
-  <section class="now">
-    <p class="kicker">Now</p>
-    <p>Designing AI-assisted learning experiences for higher education —
-    most recently a gallery of ninety-three learning theories you can walk
-    around inside, and a personal EAP coach. <a href="/about/">More about me</a>.</p>
-  </section>
+    <section class="now">
+      <p class="kicker">Now</p>
+      <p>Designing AI-assisted learning experiences for higher education —
+      most recently a walkable memory palace for EAP practitioners, and an
+      academic writing course two hundred lessons deep. <a href="/about/">More
+      about me</a>.</p>
+    </section>
+  </div>
 
   <style>
-    .sr-only {
-      position: absolute;
-      width: 1px; height: 1px;
+    .hero { padding: 1.5rem 0 0; }
+
+    .console {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      color: var(--cyan);
+      min-height: 2.6em;
+      margin-bottom: 2.2rem;
+      opacity: 0.85;
+    }
+    .cursor {
+      display: inline-block;
+      width: 0.55em;
+      height: 1em;
+      margin-left: 0.25em;
+      vertical-align: -0.15em;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan-glow);
+      animation: blink 1.05s steps(1) infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .name {
+      font-size: clamp(2.6rem, 7vw, 5rem);
+      line-height: 1.04;
+      letter-spacing: 0.1em;
+      margin: 0;
+      color: var(--bright);
+      text-shadow:
+        0 0 8px rgba(174, 247, 255, 0.6),
+        0 0 30px var(--cyan-glow),
+        0 0 80px rgba(0, 200, 255, 0.25);
+      animation: ignition 1.4s var(--ease-settle) 0.2s backwards;
+    }
+    @keyframes ignition {
+      0% { opacity: 0; text-shadow: none; }
+      10% { opacity: 0.8; }
+      18% { opacity: 0.2; }
+      28% { opacity: 1; }
+      37% { opacity: 0.45; }
+      48%, 100% { opacity: 1; }
+    }
+
+    .role {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--orange);
+      text-shadow: 0 0 16px var(--orange-glow);
+      margin: 1.6rem 0 0;
+    }
+
+    /* the grid floor, receding to the horizon */
+    .gridfloor {
+      position: relative;
+      height: 200px;
+      margin: 2.5rem -1.25rem 0;
       overflow: hidden;
-      clip-path: inset(50%);
-      white-space: nowrap;
+      perspective: 300px;
     }
-    .hero { padding: 3rem 0 4.5rem; min-height: 14rem; }
-    .redraft {
-      font-size: clamp(1.6rem, 3.4vw, 2.5rem);
-      line-height: 1.35;
-      font-variation-settings: 'opsz' 55;
-      font-weight: 420;
-      max-width: 24ch;
-      display: grid;
+    .plane {
+      position: absolute;
+      inset: 0 -40%;
+      top: 12%;
+      height: 160%;
+      background:
+        repeating-linear-gradient(90deg, rgba(110, 240, 255, 0.32) 0 1px, transparent 1px 64px),
+        repeating-linear-gradient(0deg, rgba(110, 240, 255, 0.32) 0 1px, transparent 1px 64px);
+      transform: rotateX(64deg);
+      transform-origin: top center;
+      animation: gridmove 4.5s linear infinite;
     }
-    .pass { grid-area: 1 / 1; margin: 0; }
-
-    /* static fallback (no JS / reduced motion): an honest marked-up draft */
-    .pass del { text-decoration: line-through; text-decoration-thickness: 0.06em; color: var(--ink-soft); }
-    .pass ins {
-      text-decoration: none;
-      background: linear-gradient(100deg, transparent 1%, var(--marker) 5%, var(--marker) 95%, transparent 99%);
-      padding: 0 0.12em;
-      border-radius: 0.15em;
+    @keyframes gridmove { to { background-position: 0 64px, 0 64px; } }
+    .horizon {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, var(--void) 0%, rgba(4, 8, 13, 0) 30%),
+        linear-gradient(to bottom, rgba(0, 200, 255, 0.18) 10%, transparent 45%);
+      pointer-events: none;
     }
-    .pass:not([data-pass='0']) { display: none; }
-
-    /* JS takes over from here */
-    :global(html:not(.no-js)) .redraft.armed .pass { display: block; visibility: hidden; }
-    :global(html:not(.no-js)) .redraft.armed .pass del { text-decoration: none; background: none; }
-    :global(html:not(.no-js)) .redraft.armed .pass ins {
-      /* one continuous highlighter swipe, driven by --wash */
-      text-decoration: none;
-      padding: 0 0.12em;
-      background: linear-gradient(100deg, transparent 1%, var(--marker) 5%, var(--marker) 95%, transparent 99%);
-      background-repeat: no-repeat;
-      background-size: var(--wash, 0%) 100%;
-      border-radius: 0.15em;
+    @media (prefers-reduced-motion: reduce) {
+      .plane { animation: none; }
+      .name { animation: none; }
+      .cursor { animation: none; }
     }
 
     .doors {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-      gap: 1.5rem;
-      border-top: 1px solid var(--hairline);
-      padding-top: 2.5rem;
-      max-width: var(--measure);
+      grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+      gap: 1.2rem;
+      padding-top: 2.8rem;
     }
     .door {
-      background: none;
       display: block;
-      padding: 0.5rem 0.9rem 0.6rem;
-      margin: -0.5rem -0.9rem;
-      border-radius: 0.4rem;
-      transition: background-color 0.3s ease;
+      padding: 1.1rem 1.2rem 1.2rem;
+      border-bottom-width: 1px;
+      color: var(--text);
     }
-    .door:hover { background-color: color-mix(in srgb, var(--support) 55%, transparent); }
-    .door h2 { margin: 0 0 0.5rem; font-size: 1.15rem; display: inline-block; }
-    .door h2::after { content: ' →'; color: var(--ink-soft); }
-    .door p {
-      font-family: var(--font-sans);
+    .door h2 {
+      margin: 0 0 0.5rem;
       font-size: 0.82rem;
-      color: var(--ink-soft);
-      margin: 0;
+      letter-spacing: 0.18em;
+      color: var(--cyan);
     }
-    .now { margin-top: 3.5rem; max-width: var(--measure); }
+    .door h2::after { content: ' →'; color: var(--dim); }
+    .door p { font-size: 0.78rem; color: var(--dim); margin: 0; }
+    .door:hover h2 { text-shadow: 0 0 12px var(--cyan-glow); }
+
+    .now { margin-top: 3.5rem; }
   </style>
 
   <script>
-    import { gsap } from 'gsap';
-
+    // Type the console lines, then leave the cursor breathing. Reduced
+    // motion (or no JS): the finished lines are already in the markup.
+    const consoleEl = document.querySelector('.console');
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const redraft = document.querySelector('.redraft');
 
-    if (redraft && !reduced) {
-      // split <del>/<ins> into word spans so strikes wrap naturally and
-      // insertions arrive at handwriting speed
-      const splitWords = (el, cls) => {
-        const words = el.textContent.trim().split(/\s+/);
-        el.textContent = '';
-        return words.map((w, i) => {
-          const s = document.createElement('span');
-          s.className = cls;
-          s.textContent = w;
-          s.style.display = 'inline-block';
-          el.append(s, i < words.length - 1 ? ' ' : '');
-          return s;
-        });
+    if (consoleEl && !reduced) {
+      const lines = JSON.parse(consoleEl.dataset.lines);
+      const textEl = consoleEl.querySelector('.console-text');
+      textEl.textContent = '';
+      let li = 0, ci = 0;
+      const tick = () => {
+        if (li >= lines.length) return;
+        const line = lines[li];
+        if (ci <= line.length) {
+          textEl.innerHTML = lines.slice(0, li).join('<br />') + (li ? '<br />' : '') + line.slice(0, ci);
+          ci += 1;
+          setTimeout(tick, 26 + Math.random() * 40);
+        } else {
+          li += 1; ci = 0;
+          setTimeout(tick, 320);
+        }
       };
-
-      const passes = [...redraft.querySelectorAll('.pass')].map((pass) => ({
-        el: pass,
-        del: pass.querySelector('del'),
-        ins: pass.querySelector('ins'),
-        strikes: splitWords(pass.querySelector('del'), 'strike'),
-        inserts: splitWords(pass.querySelector('ins'), 'ins-word'),
-      }));
-
-      redraft.classList.add('armed');
-
-      const tl = gsap.timeline({ repeat: -1 });
-
-      passes.forEach(({ el, del, ins, strikes, inserts }) => {
-        tl.set(el, { visibility: 'visible' })
-          .set(inserts, { display: 'none' })
-          .set(del, { clearProps: 'display' })
-          .set(ins, { '--wash': '0%' })
-          .set(strikes, { '--struck': 0, clearProps: 'width,opacity,marginRight' })
-          .call(() => strikes.forEach((s) => s.classList.remove('struck')))
-          .fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.8 })
-          // the reader reads the draft…
-          .to({}, { duration: 1.9 })
-          // …the pencil strikes it through, word by word…
-          .to(strikes, {
-            '--struck': 1,
-            duration: 0.3,
-            stagger: 0.07,
-            ease: 'power1.inOut',
-            onStart() { strikes.forEach((s, i) => gsap.delayedCall(i * 0.07, () => s.classList.add('struck'))); },
-          })
-          .to({}, { duration: 0.8 })
-          // …the deadwood collapses…
-          .to(strikes, {
-            width: 0,
-            opacity: 0,
-            marginRight: -4,
-            duration: 0.5,
-            stagger: 0.03,
-            ease: 'power2.in',
-          })
-          // the struck words are gone; drop their leftover word-spaces too
-          .set(del, { display: 'none' })
-          // …and the revision arrives under one continuous highlighter swipe.
-          .fromTo(
-            inserts,
-            { display: 'inline-block', opacity: 0, y: 6 },
-            { opacity: 1, y: 0, duration: 0.4, stagger: 0.09, ease: 'power2.out' }
-          )
-          .to(ins, {
-            '--wash': '100%',
-            duration: 0.09 * inserts.length + 0.4,
-            ease: 'power1.inOut',
-          }, '<')
-          // rest: understatement means knowing when to stop moving
-          .to({}, { duration: 4.2 })
-          .to(el, { opacity: 0, duration: 0.7 })
-          .set(el, { visibility: 'hidden' });
-      });
+      setTimeout(tick, 350);
     }
   </script>
 </Base>

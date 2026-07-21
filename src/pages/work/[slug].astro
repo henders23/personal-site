@@ -19,7 +19,7 @@ const next = all[(idx + 1) % all.length];
   <article>
     <header class="prose">
       <p class="kicker">{study.data.context}</p>
-      <h1 class="settle">{study.data.title}</h1>
+      <h1 class="ignite">{study.data.title}</h1>
       <p class="strapline">{study.data.strapline}</p>
     </header>
     <div class="prose study-body">
@@ -32,8 +32,8 @@ const next = all[(idx + 1) % all.length];
   </article>
 
   <style>
-    .strapline { color: var(--ink-soft); font-size: 1.1rem; margin-top: -0.6rem; }
-    .study-body :global(h2) { font-size: 1.25rem; }
-    .next { border-top: 1px solid var(--hairline); margin-top: 4rem; padding-top: 1.5rem; }
+    .strapline { color: var(--dim); font-size: 1.05rem; margin-top: -0.4rem; }
+    .study-body :global(h2) { font-size: 0.95rem; }
+    .next { border-top: 1px solid var(--panel-edge); margin-top: 4rem; padding-top: 1.5rem; }
   </style>
 </Base>

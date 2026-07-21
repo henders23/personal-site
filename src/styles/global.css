@@ -1,60 +1,72 @@
 /* ————————————————————————————————————————————————————————————————
-   Paper, ink, highlighter. Four values; restraint is the aesthetic.
+   The Grid. Tron: Legacy (2010) palette — deep blue-black, cyan
+   circuit light, orange for the human side. Glow is meaning: cyan
+   marks the system layer, orange marks people and pedagogy.
    ———————————————————————————————————————————————————————————————— */
 
 :root {
-  --paper: #faf7f2;
-  --ink: #1a1815;
-  --ink-soft: #55504a;
-  --hairline: #e3ddd2;
-  --marker: #ffe95c;          /* the highlighter */
-  --marker-soft: #fff3a3;
-  --support: #eaf0f2;         /* scaffold layer tint */
+  --void: #04080d;             /* page background */
+  --panel: #081018;            /* raised surfaces */
+  --panel-edge: #14344a;       /* 1px circuit borders */
+  --text: #b8cdd9;             /* body text */
+  --bright: #eafaff;           /* headings, key text */
+  --dim: #5d7889;              /* secondary text */
 
-  --font-serif: 'Literata Variable', Georgia, serif;
-  --font-sans: 'Public Sans Variable', system-ui, sans-serif;
+  --cyan: #6ef0ff;
+  --cyan-core: #aef7ff;
+  --cyan-glow: rgba(0, 200, 255, 0.55);
+  --orange: #ffab47;
+  --orange-core: #ffd9a3;
+  --orange-glow: rgba(255, 140, 40, 0.45);
 
-  --measure: 62ch;
-  --margin-w: 17rem;          /* the manuscript margin */
+  --font-display: 'Orbitron Variable', 'Titillium Web', sans-serif;
+  --font-body: 'Titillium Web', system-ui, sans-serif;
+
+  --measure: 66ch;
+  --margin-w: 17rem;
   --gutter: 2.5rem;
 
   --ease-settle: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* grey paper, not a night club */
-    --paper: #23211e;
-    --ink: #e8e3da;
-    --ink-soft: #a49d92;
-    --hairline: #3a372f;
-    --marker: #c9b636;
-    --marker-soft: #6b622a;
-    --support: #2c3134;
-  }
-}
-
 * { box-sizing: border-box; }
 
 html {
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--font-serif);
-  font-size: clamp(17px, 1.05vw + 12px, 20px);
-  line-height: 1.65;
+  background: var(--void);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: clamp(16px, 1vw + 12px, 19px);
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   scroll-behavior: smooth;
+  color-scheme: dark;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
 
-body { margin: 0; }
+body { margin: 0; position: relative; }
 
-::selection { background: var(--marker); color: #1a1815; }
+/* faint scanlines over everything — kept below 3% so text stays crisp */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(160, 220, 255, 0.022) 0px,
+    rgba(160, 220, 255, 0.022) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  z-index: 9;
+}
 
-/* ——— the manuscript page ————————————————————————————————————— */
+::selection { background: var(--cyan); color: #04141c; }
+
+/* ——— layout: the same manuscript grid, now a HUD ————————————— */
 
 .page {
   max-width: calc(var(--measure) + var(--margin-w) + var(--gutter));
@@ -62,74 +74,102 @@ body { margin: 0; }
   padding: 0 1.25rem 6rem;
 }
 
-/* Tufte-style margin: prose keeps a right rail free for annotations */
-.prose {
-  max-width: var(--measure);
-}
+.prose { max-width: var(--measure); }
 
 @media (min-width: 68rem) {
   .page { padding-right: 0; }
 }
 
 h1, h2, h3 {
-  font-weight: 460;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0.04em;
+  color: var(--bright);
   text-wrap: balance;
-  font-variation-settings: 'opsz' 40;
 }
 
-h1 { font-size: 2.1rem; margin: 0 0 1.2rem; }
-h2 { font-size: 1.45rem; margin: 3rem 0 0.8rem; }
-h3 { font-size: 1.1rem; margin: 2.2rem 0 0.5rem; }
+h1 { font-size: 1.9rem; margin: 0 0 1.2rem; text-transform: uppercase; }
+h2 { font-size: 1.15rem; margin: 3rem 0 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; }
+h3 { font-size: 0.95rem; margin: 2.2rem 0 0.5rem; }
 
-/* headings settle from light to text weight as they enter (JS sets --wght) */
-.settle {
-  --wght: 460;
-  font-variation-settings: 'opsz' 40, 'wght' var(--wght);
-  font-weight: unset;
+/* neon ignition — JS adds .lit when the heading enters the viewport */
+.ignite {
+  opacity: 0.25;
+  text-shadow: none;
+}
+.ignite.lit {
+  opacity: 1;
+  color: var(--bright);
+  text-shadow:
+    0 0 6px rgba(174, 247, 255, 0.55),
+    0 0 24px var(--cyan-glow);
+  animation: flicker 0.9s var(--ease-settle);
+}
+@keyframes flicker {
+  0% { opacity: 0.2; }
+  8% { opacity: 0.9; }
+  14% { opacity: 0.3; }
+  22% { opacity: 1; }
+  30% { opacity: 0.55; }
+  38%, 100% { opacity: 1; }
 }
 
 p { margin: 0 0 1.1rem; text-wrap: pretty; }
 
-/* ——— links: a highlighter swipe, not a glow ———————————————————— */
+strong { color: var(--bright); font-weight: 600; }
+em { color: inherit; }
+
+/* ——— links: circuit traces ————————————————————————————————————— */
 
 a {
-  color: inherit;
+  color: var(--cyan);
   text-decoration: none;
-  background-image: linear-gradient(transparent 62%, var(--marker) 62%, var(--marker) 94%, transparent 94%);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  transition: background-size 0.35s var(--ease-settle);
+  border-bottom: 1px solid rgba(110, 240, 255, 0.35);
+  transition: color 0.25s ease, border-color 0.25s ease, text-shadow 0.25s ease;
 }
 
 a:hover, a:focus-visible {
-  background-size: 0% 100%;
-  background-position: right;
+  color: var(--cyan-core);
+  border-bottom-color: var(--cyan-core);
+  text-shadow: 0 0 12px var(--cyan-glow);
 }
 
-a:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+a:focus-visible { outline: 1px solid var(--cyan); outline-offset: 3px; }
 
+/* emphasis marks: the human trace — orange, softly lit */
 mark {
-  background: linear-gradient(100deg, transparent 1%, var(--marker-soft) 4%, var(--marker-soft) 96%, transparent 99%);
-  color: inherit;
-  padding: 0 0.15em;
-  border-radius: 0.15em;
+  background: none;
+  color: var(--orange-core);
+  text-shadow: 0 0 14px var(--orange-glow);
+  padding: 0;
 }
 
 hr {
   border: 0;
-  border-top: 1px solid var(--hairline);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--panel-edge) 15%, var(--cyan-glow) 50%, var(--panel-edge) 85%, transparent);
   margin: 3.5rem 0;
 }
 
-/* ——— marginalia: the second voice ———————————————————————————— */
+/* ——— marginalia → HUD annotations ————————————————————————————— */
 
 .note {
-  font-family: var(--font-sans);
-  font-size: 0.78rem;
-  line-height: 1.55;
-  color: var(--ink-soft);
+  font-size: 0.76rem;
+  line-height: 1.6;
+  color: var(--dim);
+}
+
+.note::before {
+  content: '// annotation';
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  opacity: 0.8;
+  margin-bottom: 0.3rem;
 }
 
 @media (min-width: 68rem) {
@@ -140,8 +180,9 @@ hr {
     margin-right: calc(-1 * var(--margin-w));
     margin-top: 0.2rem;
     margin-bottom: 1rem;
-    padding-left: 0.75rem;
-    border-left: 3px solid var(--marker);
+    padding-left: 0.8rem;
+    border-left: 1px solid var(--cyan);
+    box-shadow: -6px 0 18px -12px var(--cyan-glow);
   }
 }
 
@@ -149,70 +190,107 @@ hr {
   .note {
     display: block;
     margin: 0.9rem 0 1.2rem;
-    padding: 0.1rem 0 0.1rem 0.75rem;
-    border-left: 3px solid var(--marker);
+    padding: 0.4rem 0 0.4rem 0.8rem;
+    border-left: 1px solid var(--cyan);
   }
 }
 
-/* ——— scaffolds: supports that fade once you're oriented ————————— */
+/* ——— scaffolds → briefing panels that derez —————————————————— */
 
 .scaffold {
-  font-family: var(--font-sans);
-  font-size: 0.82rem;
-  background: var(--support);
-  border-radius: 0.3rem;
-  padding: 0.7rem 0.9rem;
+  font-size: 0.8rem;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--panel-edge);
+  border-radius: 2px;
+  padding: 0.8rem 1rem;
   margin: 0 0 1.3rem;
-  color: var(--ink-soft);
-  transition: opacity 1.2s ease;
+  position: relative;
+  transition: opacity 1.2s ease, filter 1.2s ease;
 }
 
-.scaffold.faded { opacity: 0; }
-
-/* keep faded scaffolds readable for assistive tech & on focus/hover */
-.scaffold.faded:hover, .scaffold.faded:focus-within { opacity: 1; }
-
-.gloss {
-  border-bottom: 1px dotted var(--ink-soft);
-  cursor: help;
-  text-decoration: none;
-  background: none;
-}
-
-/* ——— small-caps kicker labels ————————————————————————————————— */
-
-.kicker {
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
+.scaffold::before {
+  content: 'briefing';
+  font-family: var(--font-display);
+  font-size: 0.56rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--ink-soft);
-  margin: 0 0 0.6rem;
+  color: var(--orange);
+  display: block;
+  margin-bottom: 0.25rem;
 }
 
-/* ——— strike / insert: the redraft vocabulary ————————————————— */
-
-.strike { position: relative; white-space: nowrap; }
-.strike::after {
+/* corner brackets */
+.scaffold::after {
   content: '';
   position: absolute;
-  left: -1%; right: -1%;
-  top: 54%;
-  height: 0.09em;
-  min-height: 1.5px;
-  background: currentColor;
-  transform: scaleX(var(--struck, 0));
-  transform-origin: left center;
-  border-radius: 1px;
+  inset: -1px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--cyan), var(--cyan)) top left / 10px 1px,
+    linear-gradient(var(--cyan), var(--cyan)) top left / 1px 10px,
+    linear-gradient(var(--cyan), var(--cyan)) bottom right / 10px 1px,
+    linear-gradient(var(--cyan), var(--cyan)) bottom right / 1px 10px;
+  background-repeat: no-repeat;
 }
-.strike.struck { color: var(--ink-soft); opacity: 0.55; }
 
-.insert {
-  background: linear-gradient(100deg, transparent 1%, var(--marker) 5%, var(--marker) 95%, transparent 99%);
-  padding: 0 0.12em;
-  border-radius: 0.15em;
+.scaffold.faded { opacity: 0; filter: blur(2px); }
+.scaffold.faded:hover, .scaffold.faded:focus-within { opacity: 1; filter: none; }
+
+.gloss {
+  border-bottom: 1px dotted var(--dim);
+  cursor: help;
+  color: inherit;
 }
+
+/* ——— kickers: console labels ————————————————————————————————— */
+
+.kicker {
+  font-family: var(--font-display);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin: 0 0 0.8rem;
+}
+
+.kicker::before { content: '> '; color: var(--dim); }
+
+/* ——— panels (cards) with HUD corner brackets ————————————————— */
+
+.hud-panel {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--panel-edge);
+  border-radius: 2px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hud-panel::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--cyan), var(--cyan)) top left / 12px 1px,
+    linear-gradient(var(--cyan), var(--cyan)) top left / 1px 12px,
+    linear-gradient(var(--cyan), var(--cyan)) top right / 12px 1px,
+    linear-gradient(var(--cyan), var(--cyan)) top right / 1px 12px,
+    linear-gradient(var(--cyan), var(--cyan)) bottom left / 12px 1px,
+    linear-gradient(var(--cyan), var(--cyan)) bottom left / 1px 12px,
+    linear-gradient(var(--cyan), var(--cyan)) bottom right / 12px 1px,
+    linear-gradient(var(--cyan), var(--cyan)) bottom right / 1px 12px;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+.hud-panel:hover {
+  border-color: rgba(110, 240, 255, 0.5);
+  box-shadow: 0 0 24px -6px var(--cyan-glow), inset 0 0 24px -18px var(--cyan-glow);
+}
+.hud-panel:hover::after { opacity: 1; }
 
 /* ——— quiet motion defaults ———————————————————————————————————— */
 
@@ -221,8 +299,9 @@ hr {
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1 !important; transform: none !important; }
   .scaffold { transition: none; }
-  a { transition: none; }
+  .ignite { opacity: 1; animation: none !important; }
+  .ignite.lit { animation: none !important; }
+  body::after { display: none; }
 }
 
-/* no-JS: everything simply visible */
-html.no-js .reveal { opacity: 1; }
+html.no-js .reveal, html.no-js .ignite { opacity: 1; }
